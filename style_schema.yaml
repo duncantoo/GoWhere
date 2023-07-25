@@ -1,0 +1,32 @@
+  colour_codes:
+    CLIGHT:
+      C1: "#F5A573"
+      C2: "#E4CD88"
+      C3: "#F2EC7E"
+      C4: "#A1E2AF"
+      C5: "#91E2CE"
+    CDARK:
+      C1: "#231810"
+      C2: "#221F15"
+      C3: "#232312"
+      C4: "#19231B"
+      C5: "#1A2925"
+  country_style:
+    open:
+      fill: "CLIGHT"
+      outline: "black"
+    highlighted:
+      fill: "white"
+      outline: "black"
+    selected:
+      fill: "green"
+      outline: "black"
+    guessed:
+      fill: "CDARK"
+      outline: "black"
+    verified:
+      fill: "CDARK"
+      outline: "green"
+    disputed:
+      fill: "black"
+      outline: "black"

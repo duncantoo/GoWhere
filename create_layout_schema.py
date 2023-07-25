@@ -16,7 +16,7 @@ regions = gpd.read_file(path)
 
 schema = pd.DataFrame(
     index=regions["SOVEREIGNT"].unique(),
-    columns=["names", "region_indexes", "colour", "order"],
+    columns=["names", "region_indexes", "colour", "order", "disputed"],
 ).rename_axis("country")
 
 # Hide territories which are too small.
@@ -61,8 +61,13 @@ for country, territories in territories_to_country:
     schema.at[country, "colour"] = next(colour_cycler)
     schema.at[country, "order"] = areas.sum()
 
+# Mark special cases.
+schema["disputed"] = False
+schema.loc[["Kashmir", "Northern Cyprus", "Western Sahara"], "disputed"] = True
+schema = schema.drop("Antarctica")
+
 # Larger areas get smaller rank.
 # We will draw the countries in ascending rank order, finishing with the smallest countries.
 schema["order"] = schema["order"].rank(ascending=False).astype(int)
-schema.to_csv(root_path / "schema.csv")
+schema.to_csv(root_path / "country_schema.csv")
 

@@ -44,9 +44,9 @@ class AutoScrollbar(tk.Scrollbar):
 
 class ZoomFrame(tk.Frame):
     ''' Simple zoom with mouse wheel '''
-    def __init__(self, mainframe):
+    def __init__(self, mainframe, *args, **kwargs):
         ''' Initialize the main Frame '''
-        super().__init__(mainframe)
+        super().__init__(mainframe, *args, **kwargs)
         # self.master.title('Simple zoom with mouse wheel')
         # Vertical and horizontal scrollbars for canvas
         vbar = AutoScrollbar(self, orient='vertical')
@@ -68,7 +68,7 @@ class ZoomFrame(tk.Frame):
         self.canvas.bind('<MouseWheel>', self.wheel)  # with Windows and MacOS, but not Linux
         self.canvas.bind('<Button-5>', self.wheel)  # only with Linux, wheel scroll down
         self.canvas.bind('<Button-4>', self.wheel)  # only with Linux, wheel scroll up
-        # Show image and plot some random test rectangles on the canvas
+
         self.imscale = 1.0
         self.imageid = None
         self.delta = 0.75

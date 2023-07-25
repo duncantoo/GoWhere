@@ -1,26 +1,28 @@
 import ast
 import pathlib
-import tkinter as tk
+import tkinter as ttk
 
 import geopandas as gpd
-import numpy as np
 import pandas as pd
-import shapely
-from slugify import slugify
-from ttkwidgets import autocomplete
-from thefuzz import fuzz
+import yaml
 
 import autocomplete_box
-from autocomplete_box import MatchOnlyAutocompleteCombobox
+from menu import Menu
+from world_map import (
+    CountryState,
+    WorldMap,
+)
 
 
 root_path = pathlib.Path(__file__).parent
 region_path = root_path / "Natural_Earth_quick_start" / "50m_cultural" / "ne_50m_admin_0_countries.shp"
-schema_path = root_path / "schema.csv"
+country_schema_path = root_path / "country_schema.csv"
+style_schema_path = root_path / "style_schema.yaml"
 
-regions = gpd.read_file(region_path)
-schema = pd.read_csv(
-    schema_path,
+
+regions = gpd.read_file(region_path).set_index("SOVEREIGNT")
+country_schema = pd.read_csv(
+    country_schema_path,
     index_col="country",
     converters={
         "names": ast.literal_eval,
@@ -28,240 +30,119 @@ schema = pd.read_csv(
         # "colour": str,
     },
 )
+with open(style_schema_path, "r") as f:
+    style_schema = yaml.safe_load(f)
 
 
-candidate_colours = dict(
-    C1="#F5A573",
-    C2="#E4CD88",
-    C3="#F2EC7E",
-    C4="#A1E2AF",
-    C5="#91E2CE",
-)
-shadow_colours = dict(
-    C1="#231810",
-    C2="#221F15",
-    C3="#232312",
-    C4="#19231B",
-    C5="#1A2925",
-)
+class GoWhere:
+    def __init__(self, master_frame, regions, country_schema, style_schema):
+        menu_frame = ttk.Frame(root)
+        valid_countries = country_schema.index[~country_schema["disputed"]]
+        menu = Menu(menu_frame, valid_countries, self.make_guess, self.verify_results)
+
+        map_frame = autocomplete_box.ZoomFrame(root)
+        canvas = map_frame.canvas
+        world_map = WorldMap(
+            canvas, regions, country_schema, style_schema,
+            country_bindings=[
+                ("<Enter>", self.apply_highlight_country),
+                ("<Leave>", self.remove_highlight_country),
+                ("<ButtonRelease-1>", self.weak_select_country),
+                ("<Double-Button-1>", self.strong_select_country),
+            ],
+            )
+
+        menu_frame.grid(row=0, sticky="NW")
+        map_frame.grid(row=1, sticky="NSEW")
+
+        root.grid_columnconfigure(0, weight=1)
+        root.grid_rowconfigure(0, weight=0)
+        root.grid_rowconfigure(1, weight=1)
+
+        self.valid_countries = valid_countries
+        self.master_frame = master_frame
+        self.menu = menu
+        self.world_map = world_map
+        self.countries_guessed = pd.Series(dtype="object")
+        self.countries_correct = []
+        self.deselect_country(regions.index[0])
+
+    def make_guess(self, user_entry):
+        selected_country = self.world_map.selected
+        if (selected_country and user_entry):
+            self.countries_guessed[selected_country.name] = user_entry
+            self.menu.remove_country_option(user_entry)
+            self.menu.reset_user_entry()
+            self.menu.progress = len(self.countries_correct) + len(self.countries_guessed)
+            selected_country.state = CountryState.guessed
+            self.deselect_country(selected_country.name)
+
+    def verify_results(self):
+        marking = self.countries_guessed.index == self.countries_guessed
+        correct = self.countries_guessed.index[marking]
+        incorrect = self.countries_guessed.index[~marking]
+
+        print(f"You got {len(correct)} correct and {len(incorrect)} incorrect")
+
+        self.countries_correct.extend(correct)
+        for country in correct:
+            self.world_map.countries[country].state = CountryState.verified
+        for country, guess in self.countries_guessed[incorrect].items():
+            self.world_map.countries[country].state = CountryState.open
+            self.menu.add_country_option(guess)
+        self.menu.score += marking.sum() - (~marking).sum()
+        self.menu.progress = len(self.countries_correct)
+
+        self.countries_guessed = pd.Series(dtype="object")
+
+        if len(self.countries_correct) == len(self.valid_countries):
+            print(f"Finished with score {self.menu.score}!")
+
+    def apply_highlight_country(self, name):
+        country = self.world_map.countries[name]
+        old_country = self.world_map.highlighted
+        if old_country:
+            self.remove_highlight_country(old_country.name)
+        if country.state == CountryState.open:
+            country.state = CountryState.highlighted
+        display_text = self.countries_guessed.get(name) or (name if name in self.countries_correct else "")
+        self.menu.display_country(display_text)
+
+    def remove_highlight_country(self, name):
+        country = self.world_map.countries[name]
+        if country.state == CountryState.highlighted:
+            country.state = CountryState.open
+
+    def deselect_country(self, name):
+        country = self.world_map.countries[name]
+        if country.state == CountryState.selected:
+            country.state = CountryState.open
+        self.world_map.selected = None
+        self.menu.instruction_text = "Make selection"
+
+    def weak_select_country(self, name):
+        country = self.world_map.countries[name]
+        old_country = self.world_map.selected
+        if old_country:
+            self.deselect_country(old_country.name)
+        if country.state in (CountryState.open, CountryState.highlighted):
+            country.state = CountryState.selected
+            self.world_map.selected = country
+            self.menu.instruction_text = "Guess country"
+
+    def strong_select_country(self, name):
+        country = self.world_map.countries[name]
+        if country.state in (CountryState.open, CountryState.highlighted, CountryState.guessed):
+            del self.countries_guessed[name]
+            self.menu.add_country_option(name)
+            self.menu.progress = len(self.countries_correct) + len(self.countries_guessed)
+            # We re-use the weak-select method. First put the country in a state where it can be weak-selected.
+            country.state = CountryState.highlighted
+            self.weak_select_country(name)
 
 
-def world_to_screen(canvas, v):
-    return (v + np.array((180, -90))) * np.array((canvas.winfo_reqwidth() / 360, -canvas.winfo_reqheight() / 180))
-
-
-def screen_to_world(canvas, v):
-    return v * np.array((360 / canvas.width, -180 / canvas.height)) - np.array((180, -90))
-
-
-def encode_tag(country_name):
-    """Return string slugified for tagging."""
-    return slugify(country_name, separator="_")
-
-class WorldMap():
-    def __init__(self, canvas, regions, schema):
-        self.canvas = canvas
-        self.regions = regions
-        self.schema = schema
-        self.selected = None
-        self.highlighted = None
-        self.country_state = self.schema.copy()
-        self.country_state["selected"] = False
-        self.country_state["highlighted"] = False
-        self.country_state["guess"] = ""
-        polygons = self.create_countries(canvas, regions, schema)
-        self.regions["polygons"] = polygons
-        self.remove_select()
-        return
-
-    def create_countries(self, canvas, countries, schema):
-        # Create countries in rank order, from biggest to smallest. Ensures smaller countries are on the top.
-        for country_name, scheme in schema.sort_values("order").iterrows():
-            for index in scheme["region_indexes"]:
-                self.create_country(canvas, countries.loc[index, "geometry"], country_name, fill="grey")
-            self.refresh_colour(country_name)
-
-    def create_country(self, canvas, country, name, outline="black", fill="grey", width=1):
-        if max([fuzz.ratio(name, c) for c in ["Italy", "Vatican", "San Marino"]]) > 80:
-            x = 0
-        polygon_ids = self.create_polygon_for_geometry(canvas, country, name, outline, fill, width)
-        for _id in polygon_ids:
-            canvas.tag_bind(_id, "<Enter>", lambda e: self.do_highlight(name, e))
-            canvas.tag_bind(_id, "<Leave>", lambda e: self.remove_highlight(name, e))
-            canvas.tag_bind(_id, "<ButtonRelease-1>", lambda e: self.do_select(name, e))
-            canvas.tag_bind(_id, "<Double-Button-1>", lambda e: self.force_select(name, e))
-
-    def do_highlight(self, tag, event):
-        country_guess_text.set(self.country_state.at[tag, "guess"])
-        self.country_state.loc[tag, "highlighted"] = True
-        self.refresh_colour(tag)
-
-    def remove_highlight(self, tag, event):
-        country_guess_text.set("")
-        self.country_state.loc[tag, "highlighted"] = False
-        self.refresh_colour(tag)
-
-    def remove_select(self):
-        if self.selected is not None:
-            self.country_state.loc[self.selected, "selected"] = False
-            self.refresh_colour(self.selected)
-        self.selected = None
-        instruction_text.set("Make selection")
-
-    def _do_select(self, tag, event):
-        if self.selected:
-            self.country_state.loc[self.selected, "selected"] = False
-            self.refresh_colour(self.selected)
-        self.country_state.loc[tag, "selected"] = True
-        self.refresh_colour(tag)
-        self.selected = tag
-        instruction_text.set("Guess country")
-
-    def do_select(self, tag, event):
-        """Only select if we have not already guessed it."""
-        if not len(self.country_state.at[tag, "guess"]):
-            self._do_select(tag, event)
-
-    def force_select(self, tag, event):
-        """Remove guess and select."""
-        old_guess = self.country_state.loc[tag, "guess"]
-        self.country_state.loc[tag, "guess"] = ""
-        self._do_select(tag, event)
-        unset_country(self, old_guess)
-
-    def make_guess(self, guess):
-        if self.selected:
-            self.country_state.loc[self.selected, "guess"] = guess
-            self.remove_select()
-            user_entry_text.set("")
-
-    def get_colours(self, country):
-        """Return (outline, fill) colours."""
-        state = self.country_state.loc[country]
-        if len(state["guess"]):
-            return ("grey", shadow_colours[state["colour"]])
-        elif state["selected"]:
-            return ("black", "green")
-        elif state["highlighted"]:
-            return ("black", "white")
-        else:
-            return ("black", candidate_colours[state["colour"]])
-    def refresh_colour(self, country):
-        outline, fill = self.get_colours(country)
-        self.canvas.itemconfigure(encode_tag(country), outline=outline, fill=fill)
-        return (outline, fill)
-
-    @staticmethod
-    def create_polygon_for_geometry(canvas, geometry, name, outline, fill, width):
-        ids = []
-        if isinstance(geometry, shapely.MultiPolygon):
-            polys = geometry.geoms
-        else:
-            polys = [geometry]
-        for poly in polys:
-            boundary = poly.boundary
-            if isinstance(boundary, shapely.MultiLineString):
-                lines = boundary.geoms
-            else:
-                lines = [boundary]
-            for line in lines:
-                _id = canvas.create_polygon(
-                    *world_to_screen(canvas, np.array(line.coords)).flatten(),
-                    outline=outline,
-                    fill=fill,
-                    width=width,
-                    tags=encode_tag(name),
-                )
-                ids.append(_id)
-        return ids
-
-
-root = tk.Tk()
-root.geometry("800x500")
-# Sea blue background colour
-map_frame = autocomplete_box.ZoomFrame(root)
-menu_frame = tk.Frame(root)
-
-canvas = map_frame.canvas
-
-user_entry_text = tk.StringVar()
-country_guess_text = tk.StringVar()
-instruction_text = tk.StringVar()
-progress_text = tk.StringVar()
-score_text = tk.StringVar()
-user_entry = autocomplete.AutocompleteCombobox(
-    menu_frame,
-    completevalues=sorted(regions["SOVEREIGNT"].to_list()),
-    textvariable=user_entry_text,
-)
-user_entry.focus_set()
-instruction_label = tk.Label(menu_frame, textvariable=instruction_text, width=15, fg="grey")
-country_guess = tk.Label(menu_frame, textvariable=country_guess_text, width=20, fg="grey")
-progress_label = tk.Label(menu_frame, textvariable=progress_text, width=15)
-verify_button = tk.Button(menu_frame, text="Verify")
-score_label = tk.Label(menu_frame, textvariable=score_text)
-
-progress_text.set("Progress")
-score_text.set("Score")
-score = 0
-
-world_map = WorldMap(canvas, regions, schema)
-
-
-def _set_progress(world_map):
-    total_guesses = world_map.country_state['guess'].astype(bool).sum()
-    progress_text.set(f"Progress: {total_guesses}/{world_map.country_state.shape[0]}")
-
-
-def set_country(world_map, event):
-    guess = user_entry_text.get()
-    if world_map.selected:
-        user_entry.set_completion_list(list(set(user_entry._completion_list) - {guess}))
-        print(world_map.selected, guess)
-        world_map.make_guess(guess)
-        _set_progress(world_map)
-    else:
-        print(guess)
-
-def unset_country(world_map, old_guess):
-    country_replacement = set(world_map.country_state.index.intersection({old_guess}))
-    user_entry.set_completion_list(list(set(user_entry._completion_list) | country_replacement))
-    _set_progress(world_map)
-
-
-def verify_results(world_map, event):
-    guesses = world_map.country_state["guess"]
-    marking = pd.Series({
-        country: guess in world_map.schema.at[country, "names"]
-        for country, guess in guesses[guesses.astype(bool)].items()
-    })
-
-    print(f"You got {marking.sum().astype(int)} correct and {(~marking).sum().astype(int)} incorrect")
-    for country, guess in guesses[marking[~marking].index].items():
-        world_map.force_select(country, event)
-    global score
-    score = score + marking.sum() - (~marking).sum()
-    score_text.set(f"Score: {score}")
-
-
-user_entry.bind("<<ComboboxSelected>>", lambda e: set_country(world_map, e))
-user_entry.bind("<Return>", lambda e: set_country(world_map, e))
-verify_button.bind("<ButtonRelease-1>", lambda e: verify_results(world_map, e))
-
-instruction_label.grid(row=0, column=0)
-user_entry.grid(row=0, column=1)
-country_guess.grid(row=0, column=2)
-progress_label.grid(row=0, column=3)
-verify_button.grid(row=0, column=4)
-score_label.grid(row=0, column=5)
-
-menu_frame.grid(row=0, sticky="NW")
-map_frame.grid(row=1, sticky="NSEW")
-
-root.grid_columnconfigure(0, weight=1)
-root.grid_rowconfigure(0, weight=0)
-root.grid_rowconfigure(1, weight=1)
-
-root.mainloop()
-
-quit(0)
+if __name__ == "__main__":
+    root = ttk.Tk()
+    root.geometry("1000x600")
+    gowhere = GoWhere(root, regions, country_schema, style_schema)
+    root.mainloop()
