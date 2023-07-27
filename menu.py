@@ -1,9 +1,7 @@
 
 import tkinter as ttk
-from ttkwidgets import autocomplete
 
-import autocomplete_box
-from autocomplete_box import FuzzyAutoComplete
+from tkk_plus import FuzzyAutoComplete
 
 
 class Menu:
@@ -98,8 +96,8 @@ class Menu:
     
     def remove_country_option(self, name):
         # self._user_entry_box.set_completion_list(list(set(self._user_entry_box._completion_list) - {name}))
-        self._user_entry_box.completion_list = list(set(self._user_entry_box.completion_list) - {name})
+        self._user_entry_box.all_choices = list(set(self._user_entry_box.all_choices) - {name})
 
     def add_country_option(self, name):
         # self._user_entry_box.set_completion_list(list(set(self._user_entry_box._completion_list) | {name}))
-        self._user_entry_box.completion_list = list(set(self._user_entry_box.completion_list) | ({name} & set(self._all_names)))
+        self._user_entry_box.all_choices = list(set(self._user_entry_box.all_choices) | ({name} & set(self._all_names)))

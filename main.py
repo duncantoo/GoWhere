@@ -2,17 +2,16 @@ import ast
 import pathlib
 import tkinter as ttk
 
-import geopandas as gpd
 import pandas as pd
 import yaml
 
-import autocomplete_box
 from menu import Menu
+import tkk_plus
+import utils
 from world_map import (
     CountryState,
     WorldMap,
 )
-import utils
 
 
 root_path = pathlib.Path(__file__).parent
@@ -37,7 +36,10 @@ with open(style_schema_path, "r") as f:
 
 class GoWhere:
     def __init__(self, master_frame, regions, country_schema, style_schema):
-        map_frame = autocomplete_box.ZoomFrame(root)
+        # Stop changing focus with tab key.
+        root.unbind_all("<<NextWindow>>")
+        root.unbind_all("<<PrevWindow>>")
+        map_frame = tkk_plus.ZoomFrame(root)
         canvas = map_frame.canvas
         world_map = WorldMap(
             canvas, regions, country_schema, style_schema,
