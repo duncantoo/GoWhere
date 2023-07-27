@@ -2,7 +2,11 @@
 https://stackoverflow.com/a/71380238
 """
 import tkinter as tk
+from tkinter import ttk
 
+
+import pandas as pd
+from thefuzz import fuzz
 from ttkwidgets.autocomplete import AutocompleteCombobox
 
 class ResizingCanvas(tk.Canvas):
@@ -141,3 +145,104 @@ class MatchOnlyAutocompleteCombobox(AutocompleteCombobox):
             self.delete(0, tk.END)
             self.insert(0, self._hits[self._hit_index])
             self.select_range(self.position, tk.END)
+
+
+
+class FuzzyAutoComplete(tk.Frame):
+    def __init__(self, parent, values, textvariable, width):
+        super().__init__(parent, width=width)
+        self.entry = tk.Entry(self, textvariable=textvariable, width=width)
+        self.parent = parent
+        self.entry_variable = textvariable
+
+        self.lbframe = tk.Frame(self)
+        self.choicesvar = tk.StringVar(value=values)
+        self.list = tk.Listbox(self.lbframe, listvariable=self.choicesvar, width=width)
+        self.list.pack()
+        self.typed_text = ""
+
+        self.entry.grid(row=0, column=0)
+
+        self.rowconfigure(0, weight=1)
+
+
+        self.entry.bind("<KeyRelease>", self.autocomplete)
+        self.entry.bind("<Down>", self.down_to_list)
+        self.entry.bind("<FocusIn>", self.up_to_entry)
+        self.list.bind("<Up>", self.up_to_entry)
+        self.list.bind("<<ListboxSelect>>", self.select_choice)
+        self.list.bind("<FocusOut>", lambda _: self.enable_text())
+        self._all_values = values
+
+    def bind(self, key, function):
+        super().bind(key, function)
+        if key == "<Return>":
+            self.entry.bind(key, function)
+            self.list.bind(key, function)
+
+    def down_to_list(self, event):
+        self.entry["state"] = "disabled"
+        self.list.select_set(0)
+        self.list.focus_set()
+        self.list.event_generate("<<ListboxSelect>>")
+        self.show_list()
+
+    def up_to_entry(self, event):
+        selection = self.list.curselection()
+        if selection and (selection[0] == 0):
+            self.enable_text()
+            self.entry.focus_set()
+            self.entry_variable.set(self.typed_text)
+            self.entry.icursor(len(self.typed_text))
+            self.hide_list()
+
+    def enable_text(self):
+        self.entry["state"] = "normal"
+
+    def autocomplete(self, event):
+        """Autocomplete the Combobox."""
+        # Store in case we move in and out of list.
+        self.typed_text = self.entry.get()
+        entry_lower = self.entry.get().lower()
+        results = pd.Series([
+            max(
+                fuzz.partial_ratio(entry_lower, c.lower()),
+                fuzz.ratio(entry_lower, c.lower()[:len(entry_lower)])
+            )
+            for c in self._all_values
+        ], index=self._all_values,
+        )
+        self.choicesvar.set(results.sort_values(ascending=False).index[:5].tolist())
+
+        self.show_list()
+
+    def focus_set(self):
+        super().focus_set()
+        self.entry.focus_set()
+    def show_list(self):
+        self.lbframe.place(in_=self.entry, x=0, rely=1, relwidth=1.0, anchor="nw")
+        self.lbframe.lift()
+
+    def hide_list(self):
+        self.lbframe.place_forget()
+
+    def select_choice(self, event):
+        if self.list.focus_get() is self.list:
+            selection = self.list.curselection()
+            index = selection[0]
+            data = event.widget.get(index)
+            self.entry_variable.set(data)
+
+    def reset_text(self):
+        self.entry_variable.set("")
+        self.enable_text()
+        self.typed_text = ""
+        self.focus_set()
+
+    @property
+    def completion_list(self):
+        return self._all_values
+
+    @completion_list.setter
+    def completion_list(self, values):
+        self._all_values = values

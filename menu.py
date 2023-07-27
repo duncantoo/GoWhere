@@ -2,6 +2,9 @@
 import tkinter as ttk
 from ttkwidgets import autocomplete
 
+import autocomplete_box
+from autocomplete_box import FuzzyAutoComplete
+
 
 class Menu:
     def __init__(self, master_frame, country_names, make_guess_fn, verify_results_fn):
@@ -16,10 +19,17 @@ class Menu:
         self._progress_text = ttk.StringVar()
         self._score_text = ttk.StringVar()
 
-        self._user_entry_box = autocomplete.AutocompleteCombobox(
+        # self._user_entry_box = autocomplete.AutocompleteCombobox(
+        #     master_frame,
+        #     completevalues=sorted(country_names),
+        #     textvariable=self._user_entry_text,
+        #     width=25,
+        # )
+        self._user_entry_box = FuzzyAutoComplete(
             master_frame,
-            completevalues=sorted(country_names),
+            values=sorted(country_names.to_list()),
             textvariable=self._user_entry_text,
+            width=25,
         )
         self._user_entry_box.focus_set()
         self._instruction_label = ttk.Label(master_frame, textvariable=self._instruction_text, width=15, fg="grey")
@@ -39,6 +49,13 @@ class Menu:
         self._verify_button.grid(row=0, column=4)
         self._score_label.grid(row=0, column=5)
 
+        master_frame.grid_columnconfigure(0, weight=2)
+        master_frame.grid_columnconfigure(1, weight=1)
+        master_frame.grid_columnconfigure(2, weight=1)
+        master_frame.grid_columnconfigure(3, weight=0)
+        master_frame.grid_columnconfigure(4, weight=0)
+        master_frame.grid_columnconfigure(5, weight=0)
+
         # Initialise the text via property setters.
         self.score = 0
         self.progress = 0
@@ -54,7 +71,7 @@ class Menu:
         
     @property
     def progress(self):
-        return self._score
+        return self._progress
     
     @progress.setter
     def progress(self, progress):
@@ -77,10 +94,12 @@ class Menu:
         return self._user_entry_text.get()
 
     def reset_user_entry(self):
-        self._user_entry_text.set("")
+        self._user_entry_box.reset_text()
     
     def remove_country_option(self, name):
-        self._user_entry_box.set_completion_list(list(set(self._user_entry_box._completion_list) - {name}))
-        
+        # self._user_entry_box.set_completion_list(list(set(self._user_entry_box._completion_list) - {name}))
+        self._user_entry_box.completion_list = list(set(self._user_entry_box.completion_list) - {name})
+
     def add_country_option(self, name):
-        self._user_entry_box.set_completion_list(list(set(self._user_entry_box._completion_list) | {name}))
+        # self._user_entry_box.set_completion_list(list(set(self._user_entry_box._completion_list) | {name}))
+        self._user_entry_box.completion_list = list(set(self._user_entry_box.completion_list) | ({name} & set(self._all_names)))

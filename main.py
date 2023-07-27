@@ -12,6 +12,7 @@ from world_map import (
     CountryState,
     WorldMap,
 )
+import utils
 
 
 root_path = pathlib.Path(__file__).parent
@@ -20,7 +21,7 @@ country_schema_path = root_path / "country_schema.csv"
 style_schema_path = root_path / "style_schema.yaml"
 
 
-regions = gpd.read_file(region_path).set_index("SOVEREIGNT")
+regions = utils.read_regions(region_path).set_index("SOVEREIGNT")
 country_schema = pd.read_csv(
     country_schema_path,
     index_col="country",
@@ -36,10 +37,6 @@ with open(style_schema_path, "r") as f:
 
 class GoWhere:
     def __init__(self, master_frame, regions, country_schema, style_schema):
-        menu_frame = ttk.Frame(root)
-        valid_countries = country_schema.index[~country_schema["disputed"]]
-        menu = Menu(menu_frame, valid_countries, self.make_guess, self.verify_results)
-
         map_frame = autocomplete_box.ZoomFrame(root)
         canvas = map_frame.canvas
         world_map = WorldMap(
@@ -51,6 +48,10 @@ class GoWhere:
                 ("<Double-Button-1>", self.strong_select_country),
             ],
             )
+
+        menu_frame = ttk.Frame(root)
+        valid_countries = country_schema.index[~country_schema["disputed"]]
+        menu = Menu(menu_frame, valid_countries, self.make_guess, self.verify_results)
 
         menu_frame.grid(row=0, sticky="NW")
         map_frame.grid(row=1, sticky="NSEW")

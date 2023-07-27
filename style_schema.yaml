@@ -14,7 +14,7 @@
   country_style:
     open:
       fill: "CLIGHT"
-      outline: "black"
+      outline: "grey"
     highlighted:
       fill: "white"
       outline: "black"

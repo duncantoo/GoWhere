@@ -1,71 +1,71 @@
 country,names,region_indexes,colour,order,disputed
-Zimbabwe,['Zimbabwe'],[0],C5,67,False
-Zambia,['Zambia'],[1],C4,43,False
-Yemen,['Yemen'],[2],C3,61,False
-Vietnam,['Vietnam'],[3],C1,72,False
-Venezuela,['Venezuela'],[4],C5,38,False
-Vatican,['Vatican'],[5],C4,200,False
-Vanuatu,['Vanuatu'],[6],C3,163,False
-Uzbekistan,['Uzbekistan'],[7],C2,54,False
-Uruguay,['Uruguay'],[8],C1,89,False
-Federated States of Micronesia,"['Micronesia', 'Federated States of Micronesia']",[9],C2,182,False
-Marshall Islands,"['Marshall Is.', 'Marshall Islands']",[10],C4,192,False
-United States of America,"['United States', 'United States of America']",[16],C5,3,False
-United Kingdom,['United Kingdom'],[31],C3,66,False
-United Arab Emirates,['United Arab Emirates'],[32],C2,123,False
-Ukraine,['Ukraine'],[33],C1,41,False
-Uganda,['Uganda'],[34],C5,83,False
-Turkmenistan,['Turkmenistan'],[35],C3,53,False
-Turkey,['Turkey'],[36],C2,33,False
-Tunisia,['Tunisia'],[37],C1,91,False
-Trinidad and Tobago,['Trinidad and Tobago'],[38],C5,168,False
-Tonga,['Tonga'],[39],C4,184,False
-Togo,['Togo'],[40],C3,132,False
+Zimbabwe,['Zimbabwe'],[0],C1,67,False
+Zambia,['Zambia'],[1],C5,43,False
+Yemen,['Yemen'],[2],C4,61,False
+Vietnam,['Vietnam'],[3],C2,72,False
+Venezuela,['Venezuela'],[4],C1,38,False
+Vatican,['Vatican'],[5],C5,201,False
+Vanuatu,['Vanuatu'],[6],C4,163,False
+Uzbekistan,['Uzbekistan'],[7],C3,54,False
+Uruguay,['Uruguay'],[8],C2,89,False
+Federated States of Micronesia,"['Micronesia', 'Federated States of Micronesia']",[9],C2,183,False
+Marshall Islands,"['Marshall Islands', 'Marshall Is.']",[10],C4,193,False
+United States of America,"['United States of America', 'United States']",[16],C1,3,False
+United Kingdom,['United Kingdom'],[31],C4,66,False
+United Arab Emirates,['United Arab Emirates'],[32],C3,123,False
+Ukraine,['Ukraine'],[33],C2,41,False
+Uganda,['Uganda'],[34],C1,83,False
+Turkmenistan,['Turkmenistan'],[35],C4,53,False
+Turkey,['Turkey'],[36],C3,33,False
+Tunisia,['Tunisia'],[37],C2,91,False
+Trinidad and Tobago,['Trinidad and Tobago'],[38],C1,169,False
+Tonga,['Tonga'],[39],C5,185,False
+Togo,['Togo'],[40],C4,132,False
 East Timor,"['Timor-Leste', 'East Timor']",[41],C4,158,False
-Thailand,['Thailand'],[42],C1,57,False
-United Republic of Tanzania,"['Tanzania', 'United Republic of Tanzania']",[43],C4,35,False
-Tajikistan,['Tajikistan'],[44],C5,93,False
-Taiwan,['Taiwan'],[45],C4,138,False
-Syria,['Syria'],[46],C2,87,False
-Switzerland,['Switzerland'],[47],C1,131,False
-Sweden,['Sweden'],[48],C5,34,False
-eSwatini,"['eSwatini', 'Kingdom of eSwatini']",[49],C1,156,False
-Suriname,['Suriname'],[50],C4,100,False
-South Sudan,"['S. Sudan', 'South Sudan']",[51],C5,50,False
-Sudan,['Sudan'],[52],C3,16,False
-Sri Lanka,['Sri Lanka'],[53],C2,129,False
-Spain,['Spain'],[54],C1,48,False
-South Korea,"['Republic of Korea', 'South Korea']",[55],C4,107,False
-South Africa,['South Africa'],[56],C3,20,False
-Somalia,['Somalia'],[57],C1,60,False
-Somaliland,['Somaliland'],[58],C2,94,False
-Solomon Islands,"['Solomon Is.', 'Solomon Islands']",[59],C5,149,False
-Slovakia,['Slovakia'],[60],C3,126,False
-Slovenia,['Slovenia'],[61],C4,145,False
-Singapore,['Singapore'],[62],C2,183,False
-Sierra Leone,['Sierra Leone'],[63],C1,127,False
-Seychelles,['Seychelles'],[64],C5,194,False
-Republic of Serbia,"['Republic of Serbia', 'Serbia']",[65],C3,117,False
-Senegal,['Senegal'],[66],C4,90,False
-Saudi Arabia,['Saudi Arabia'],[67],C3,15,False
-São Tomé and Principe,['São Tomé and Principe'],[68],C3,176,False
-San Marino,['San Marino'],[69],C2,195,False
-Samoa,['Samoa'],[70],C1,172,False
-Saint Vincent and the Grenadines,"['St. Vin. and Gren.', 'Saint Vincent and the Grenadines']",[71],C5,189,False
-Saint Lucia,['Saint Lucia'],[72],C4,181,False
-Saint Kitts and Nevis,"['St. Kitts and Nevis', 'Saint Kitts and Nevis']",[73],C3,191,False
-Rwanda,['Rwanda'],[74],C2,150,False
-Russia,"['Russia', 'Russian Federation']",[75],C1,1,False
-Romania,['Romania'],[76],C5,73,False
-Qatar,['Qatar'],[77],C2,161,False
-Portugal,['Portugal'],[78],C1,109,False
-Poland,['Poland'],[79],C5,59,False
-Philippines,['Philippines'],[80],C4,77,False
-Peru,['Peru'],[81],C3,23,False
-Paraguay,['Paraguay'],[82],C2,65,False
-Papua New Guinea,['Papua New Guinea'],[83],C1,64,False
-Panama,['Panama'],[84],C5,125,False
-Palau,['Palau'],[85],C4,187,False
+Thailand,['Thailand'],[42],C2,57,False
+United Republic of Tanzania,"['Tanzania', 'United Republic of Tanzania']",[43],C5,35,False
+Tajikistan,['Tajikistan'],[44],C1,93,False
+Taiwan,['Taiwan'],[45],C5,138,False
+Syria,['Syria'],[46],C3,87,False
+Switzerland,['Switzerland'],[47],C2,131,False
+Sweden,['Sweden'],[48],C1,34,False
+eSwatini,"['eSwatini', 'Kingdom of eSwatini']",[49],C2,156,False
+Suriname,['Suriname'],[50],C5,100,False
+South Sudan,"['S. Sudan', 'South Sudan']",[51],C1,50,False
+Sudan,['Sudan'],[52],C4,16,False
+Sri Lanka,['Sri Lanka'],[53],C3,129,False
+Spain,['Spain'],[54],C2,48,False
+South Korea,"['South Korea', 'Republic of Korea']",[55],C5,107,False
+South Africa,['South Africa'],[56],C4,20,False
+Somalia,['Somalia'],[57],C2,60,False
+Somaliland,['Somaliland'],[58],C3,94,True
+Solomon Islands,"['Solomon Is.', 'Solomon Islands']",[59],C1,148,False
+Slovakia,['Slovakia'],[60],C4,126,False
+Slovenia,['Slovenia'],[61],C5,144,False
+Singapore,['Singapore'],[62],C3,184,False
+Sierra Leone,['Sierra Leone'],[63],C2,127,False
+Seychelles,['Seychelles'],[64],C1,195,False
+Republic of Serbia,"['Republic of Serbia', 'Serbia']",[65],C4,117,False
+Senegal,['Senegal'],[66],C5,90,False
+Saudi Arabia,['Saudi Arabia'],[67],C4,15,False
+São Tomé and Principe,['São Tomé and Principe'],[68],C4,177,False
+San Marino,['San Marino'],[69],C3,196,False
+Samoa,['Samoa'],[70],C2,173,False
+Saint Vincent and the Grenadines,"['Saint Vincent and the Grenadines', 'St. Vin. and Gren.']",[71],C1,190,False
+Saint Lucia,['Saint Lucia'],[72],C5,182,False
+Saint Kitts and Nevis,"['St. Kitts and Nevis', 'Saint Kitts and Nevis']",[73],C4,192,False
+Rwanda,['Rwanda'],[74],C3,150,False
+Russia,"['Russian Federation', 'Russia']",[75],C2,1,False
+Romania,['Romania'],[76],C1,73,False
+Qatar,['Qatar'],[77],C3,161,False
+Portugal,['Portugal'],[78],C2,109,False
+Poland,['Poland'],[79],C1,59,False
+Philippines,['Philippines'],[80],C5,77,False
+Peru,['Peru'],[81],C4,23,False
+Paraguay,['Paraguay'],[82],C3,65,False
+Papua New Guinea,['Papua New Guinea'],[83],C2,64,False
+Panama,['Panama'],[84],C1,125,False
+Palau,['Palau'],[85],C4,188,False
 Pakistan,['Pakistan'],[86],C3,32,False
 Oman,['Oman'],[87],C2,74,False
 Norway,['Norway'],[88],C1,31,False
@@ -76,45 +76,46 @@ Nicaragua,['Nicaragua'],[92],C5,102,False
 New Zealand,['New Zealand'],[93],C4,69,False
 Netherlands,['Netherlands'],[96],C3,130,False
 Nepal,['Nepal'],[99],C2,96,False
-Nauru,['Nauru'],[100],C1,197,False
+Nauru,['Nauru'],[100],C1,198,False
 Namibia,['Namibia'],[101],C5,40,False
 Mozambique,['Mozambique'],[102],C3,42,False
 Morocco,['Morocco'],[103],C2,47,False
-Western Sahara,"['W. Sahara', 'Western Sahara']",[104],C2,119,True
+Western Sahara,"['Western Sahara', 'W. Sahara']",[104],C3,119,True
 Montenegro,['Montenegro'],[105],C1,157,False
 Mongolia,['Mongolia'],[106],C5,13,False
 Moldova,['Moldova'],[107],C3,135,False
-Monaco,['Monaco'],[108],C4,198,False
+Monaco,['Monaco'],[108],C4,199,False
 Mexico,['Mexico'],[109],C2,14,False
-Mauritius,['Mauritius'],[110],C1,174,False
+Mauritius,['Mauritius'],[110],C1,175,False
 Mauritania,['Mauritania'],[111],C5,30,False
-Malta,['Malta'],[112],C3,188,False
+Malta,['Malta'],[112],C3,189,False
 Mali,['Mali'],[113],C2,22,False
-Maldives,['Maldives'],[114],C1,196,False
+Maldives,['Maldives'],[114],C1,197,False
 Malaysia,['Malaysia'],[115],C5,75,False
 Malawi,['Malawi'],[116],C4,105,False
 Madagascar,['Madagascar'],[117],C3,49,False
 North Macedonia,['North Macedonia'],[118],C4,142,False
-Luxembourg,['Luxembourg'],[119],C2,170,False
+Luxembourg,['Luxembourg'],[119],C2,171,False
 Lithuania,['Lithuania'],[120],C1,114,False
-Liechtenstein,['Liechtenstein'],[121],C5,193,False
+Liechtenstein,['Liechtenstein'],[121],C5,194,False
 Libya,['Libya'],[122],C4,19,False
 Liberia,['Liberia'],[123],C3,120,False
 Lesotho,['Lesotho'],[124],C2,141,False
 Lebanon,['Lebanon'],[125],C1,162,False
 Latvia,['Latvia'],[126],C5,111,False
-Laos,"['Laos', 'Lao PDR']",[127],C4,85,False
+Laos,"['Lao PDR', 'Laos']",[127],C4,85,False
 Kyrgyzstan,['Kyrgyzstan'],[128],C3,79,False
 Kuwait,['Kuwait'],[129],C2,154,False
 Kosovo,['Kosovo'],[130],C1,159,False
-Kiribati,['Kiribati'],[131],C5,177,False
+Kiribati,['Kiribati'],[131],C5,178,False
 Kenya,['Kenya'],[132],C4,55,False
 Kazakhstan,['Kazakhstan'],[133],C3,8,False
 Jordan,['Jordan'],[134],C1,118,False
 Japan,['Japan'],[135],C5,63,False
 Jamaica,['Jamaica'],[136],C4,164,False
 Italy,['Italy'],[137],C2,68,False
-Israel,['Israel'],"[138, 139]",C1,143,False
+Israel,['Israel'],[138],C1,149,False
+Palestine,['Palestine'],[139],C5,166,False
 Ireland,['Ireland'],[140],C5,113,False
 Iraq,['Iraq'],[141],C4,58,False
 Iran,['Iran'],[142],C3,17,False
@@ -123,17 +124,17 @@ India,['India'],[144],C1,10,False
 Iceland,['Iceland'],[145],C5,86,False
 Hungary,['Hungary'],[146],C4,101,False
 Honduras,['Honduras'],[147],C3,112,False
-Haiti,['Haiti'],[148],C2,146,False
+Haiti,['Haiti'],[148],C2,145,False
 Guyana,['Guyana'],[149],C1,88,False
-Guinea-Bissau,['Guinea-Bissau'],[150],C5,144,False
+Guinea-Bissau,['Guinea-Bissau'],[150],C5,143,False
 Guinea,['Guinea'],[151],C4,82,False
 Guatemala,['Guatemala'],[152],C3,116,False
-Grenada,['Grenada'],[153],C2,190,False
+Grenada,['Grenada'],[153],C2,191,False
 Greece,['Greece'],[154],C1,95,False
 Ghana,['Ghana'],[155],C5,84,False
 Germany,['Germany'],[156],C4,56,False
 Georgia,['Georgia'],[157],C3,121,False
-Gambia,"['Gambia', 'The Gambia']",[158],C2,165,False
+Gambia,"['The Gambia', 'Gambia']",[158],C2,165,False
 Gabon,['Gabon'],[159],C1,80,False
 France,['France'],[160],C5,39,False
 Finland,['Finland'],[169],C4,45,False
@@ -141,38 +142,38 @@ Fiji,['Fiji'],[170],C3,155,False
 Ethiopia,['Ethiopia'],[171],C1,26,False
 Estonia,['Estonia'],[172],C5,122,False
 Eritrea,['Eritrea'],[173],C4,103,False
-Equatorial Guinea,"['Eq. Guinea', 'Equatorial Guinea']",[174],C3,148,False
+Equatorial Guinea,"['Eq. Guinea', 'Equatorial Guinea']",[174],C3,147,False
 El Salvador,['El Salvador'],[175],C2,153,False
 Egypt,['Egypt'],[176],C1,29,False
 Ecuador,['Ecuador'],[177],C5,81,False
 Dominican Republic,"['Dominican Republic', 'Dominican Rep.']",[178],C3,134,False
-Dominica,['Dominica'],[179],C2,178,False
+Dominica,['Dominica'],[179],C2,179,False
 Djibouti,['Djibouti'],[180],C1,152,False
 Denmark,['Denmark'],"[181, 183]",C5,7,False
-Czechia,"['Czechia', 'Czech Republic']",[184],C3,106,False
-Northern Cyprus,"['Northern Cyprus', 'N. Cyprus']",[185],C5,169,True
-Cyprus,['Cyprus'],[186],C2,166,False
+Czechia,"['Czech Republic', 'Czechia']",[184],C3,106,False
+Northern Cyprus,"['N. Cyprus', 'Northern Cyprus']",[185],C5,170,True
+Cyprus,['Cyprus'],[186],C2,167,False
 Cuba,['Cuba'],[187],C1,110,False
 Croatia,['Croatia'],[188],C5,124,False
-Ivory Coast,"[""Côte d'Ivoire"", 'Ivory Coast']",[189],C3,76,False
+Ivory Coast,"['Ivory Coast', ""Côte d'Ivoire""]",[189],C3,76,False
 Costa Rica,['Costa Rica'],[190],C4,133,False
 Democratic Republic of the Congo,"['Dem. Rep. Congo', 'Democratic Republic of the Congo']",[191],C4,12,False
-Republic of the Congo,"['Congo', 'Republic of the Congo']",[192],C4,71,False
-Comoros,['Comoros'],[193],C3,175,False
+Republic of the Congo,"['Congo', 'Republic of the Congo']",[192],C5,71,False
+Comoros,['Comoros'],[193],C3,176,False
 Colombia,['Colombia'],[194],C2,27,False
 China,['China'],[195],C1,4,False
 Chile,['Chile'],[198],C5,36,False
 Chad,['Chad'],[199],C4,21,False
 Central African Republic,"['Central African Rep.', 'Central African Republic']",[200],C3,52,False
-Cabo Verde,"['Republic of Cabo Verde', 'Cabo Verde']",[201],C4,171,False
+Cabo Verde,"['Republic of Cabo Verde', 'Cabo Verde']",[201],C4,172,False
 Canada,['Canada'],[202],C2,2,False
 Cameroon,['Cameroon'],[203],C1,62,False
 Cambodia,['Cambodia'],[204],C5,92,False
 Myanmar,['Myanmar'],[205],C4,46,False
-Burundi,['Burundi'],[206],C3,147,False
+Burundi,['Burundi'],[206],C3,146,False
 Burkina Faso,['Burkina Faso'],[207],C2,78,False
 Bulgaria,['Bulgaria'],[208],C1,98,False
-Brunei,"['Brunei Darussalam', 'Brunei']",[209],C5,167,False
+Brunei,"['Brunei', 'Brunei Darussalam']",[209],C5,168,False
 Brazil,['Brazil'],[210],C4,5,False
 Botswana,['Botswana'],[211],C3,51,False
 Bosnia and Herzegovina,"['Bosnia and Herz.', 'Bosnia and Herzegovina']",[212],C2,128,False
@@ -182,20 +183,20 @@ Benin,['Benin'],[215],C4,108,False
 Belize,['Belize'],[216],C3,151,False
 Belgium,['Belgium'],[217],C2,136,False
 Belarus,['Belarus'],[218],C1,70,False
-Barbados,['Barbados'],[219],C5,186,False
+Barbados,['Barbados'],[219],C5,187,False
 Bangladesh,['Bangladesh'],[220],C4,99,False
-Bahrain,['Bahrain'],[221],C3,179,False
-The Bahamas,"['The Bahamas', 'Bahamas']",[222],C2,160,False
+Bahrain,['Bahrain'],[221],C3,180,False
+The Bahamas,"['Bahamas', 'The Bahamas']",[222],C3,160,False
 Azerbaijan,['Azerbaijan'],[223],C2,115,False
 Austria,['Austria'],[224],C1,104,False
 Australia,['Australia'],[225],C5,6,False
 Armenia,['Armenia'],[230],C4,139,False
 Argentina,['Argentina'],[231],C3,9,False
-Antigua and Barbuda,"['Antigua and Barbuda', 'Antigua and Barb.']",[232],C2,185,False
+Antigua and Barbuda,"['Antigua and Barbuda', 'Antigua and Barb.']",[232],C2,186,False
 Angola,['Angola'],[233],C5,24,False
-Andorra,['Andorra'],[234],C4,180,False
+Andorra,['Andorra'],[234],C4,181,False
 Algeria,['Algeria'],[235],C3,11,False
 Albania,['Albania'],[236],C2,140,False
 Afghanistan,['Afghanistan'],[237],C1,44,False
-Kashmir,"['Siachen Glacier', 'Kashmir']",[238],C2,173,True
-Tuvalu,['Tuvalu'],[241],C4,199,False
+Kashmir,"['Siachen Glacier', 'Kashmir']",[238],C2,174,True
+Tuvalu,['Tuvalu'],[241],C5,200,False

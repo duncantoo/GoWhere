@@ -8,11 +8,13 @@ import geopandas as gpd
 import pandas as pd
 from thefuzz import fuzz
 
+import utils
+
 
 root_path = pathlib.Path(__file__).parent
 path = root_path / "Natural_Earth_quick_start" / "50m_cultural" / "ne_50m_admin_0_countries.shp"
 
-regions = gpd.read_file(path)
+regions = utils.read_regions(path)
 
 schema = pd.DataFrame(
     index=regions["SOVEREIGNT"].unique(),
@@ -63,7 +65,7 @@ for country, territories in territories_to_country:
 
 # Mark special cases.
 schema["disputed"] = False
-schema.loc[["Kashmir", "Northern Cyprus", "Western Sahara"], "disputed"] = True
+schema.loc[["Kashmir", "Northern Cyprus", "Western Sahara", "Somaliland"], "disputed"] = True
 schema = schema.drop("Antarctica")
 
 # Larger areas get smaller rank.
