@@ -1,16 +1,20 @@
   colour_codes:
     CLIGHT:
-      C1: "#F5A573"
-      C2: "#E4CD88"
-      C3: "#F2EC7E"
-      C4: "#A1E2AF"
-      C5: "#91E2CE"
+      C1: "#ccc7eb"
+      C2: "#bde6f5"
+      C3: "#acecb1"
+      C4: "#f5e4bd"
+      C5: "#ffc3b3"
+      C6: "#f3bed3"
+      C7: "#fad5b7"
     CDARK:
-      C1: "#231810"
-      C2: "#221F15"
-      C3: "#232312"
-      C4: "#19231B"
-      C5: "#1A2925"
+      C1: "#110d26"
+      C2: "#07222c"
+      C3: "#092a0c"
+      C4: "#2c2107"
+      C5: "#330b00"
+      C6: "#2b0816"
+      C7: "#301703"
   country_style:
     open:
       fill: "CLIGHT"

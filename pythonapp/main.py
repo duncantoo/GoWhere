@@ -14,10 +14,11 @@ from world_map import (
 )
 
 
-root_path = pathlib.Path(__file__).parent
-region_path = root_path / "Natural_Earth_quick_start" / "50m_cultural" / "ne_50m_admin_0_countries.shp"
-country_schema_path = root_path / "country_schema.csv"
-style_schema_path = root_path / "style_schema.yaml"
+root_path = pathlib.Path(__file__).resolve().parents[1]
+resource_path = root_path / "resources"
+region_path = resource_path / "Natural_Earth_50m_cultural" / "ne_50m_admin_0_countries.shp"
+country_schema_path = resource_path / "country_schema.csv"
+style_schema_path = resource_path / "style_schema.yaml"
 
 
 regions = utils.read_regions(region_path).set_index("SOVEREIGNT")

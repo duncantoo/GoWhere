@@ -1,20 +1,23 @@
 """Decide which colour to make countries and which territories to hide."""
 
-
 import itertools
 import pathlib
+import sys
 
-import geopandas as gpd
 import pandas as pd
 from thefuzz import fuzz
+
+root_path = pathlib.Path(__file__).resolve().parents[1]
+sys.path.append(str(root_path / "pythonapp"))
 
 import utils
 
 
-root_path = pathlib.Path(__file__).parent
-path = root_path / "Natural_Earth_quick_start" / "50m_cultural" / "ne_50m_admin_0_countries.shp"
+resource_path = root_path / "resources"
+region_path = resource_path / "Natural_Earth_quick_start" / "50m_cultural" / "ne_50m_admin_0_countries.shp"
+schema_path = resource_path / "country_schema.csv"
 
-regions = utils.read_regions(path)
+regions = utils.read_regions(region_path)
 
 schema = pd.DataFrame(
     index=regions["SOVEREIGNT"].unique(),
@@ -26,15 +29,6 @@ territories_to_country = regions[["NAME", "NAME_LONG"]].groupby(regions["SOVEREI
 
 country_area = regions.set_index("SOVEREIGNT")["geometry"].apply(lambda g: g.area)
 global_area = country_area.sum()
-
-colours = [
-    "C1",
-    "C2",
-    "C3",
-    "C4",
-    "C5",
-]
-colour_cycler = itertools.cycle(colours)
 
 for country, territories in territories_to_country:
     # schema.loc[country, "names"]
@@ -60,7 +54,10 @@ for country, territories in territories_to_country:
 
     schema.at[country, "region_indexes"] = list(territory_discard[~territory_discard].index)
     schema.at[country, "names"] = list({country, *territories.loc[main_id, ["NAME", "NAME_LONG"]]})
-    schema.at[country, "colour"] = next(colour_cycler)
+    # Natural Earth already contains colours codes where adjacent countries have different colours which are consistent
+    # amongst territories of the same sovereignty.
+    colour_int = regions.loc[territories.index[0], "MAPCOLOR7"]
+    schema.at[country, "colour"] = f"C{colour_int}"
     schema.at[country, "order"] = areas.sum()
 
 # Mark special cases.
@@ -71,5 +68,4 @@ schema = schema.drop("Antarctica")
 # Larger areas get smaller rank.
 # We will draw the countries in ascending rank order, finishing with the smallest countries.
 schema["order"] = schema["order"].rank(ascending=False).astype(int)
-schema.to_csv(root_path / "country_schema.csv")
-
+schema.to_csv(schema_path)
